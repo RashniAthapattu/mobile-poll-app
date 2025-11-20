@@ -1,6 +1,13 @@
 import { Stack } from "expo-router";
 import "../../global.css";
+import AuthProvider from "../providers/AuthProvider";
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <AuthProvider>
+      <Stack>
+        <Stack.Screen name="(auth)" options={{ title: "Login" }} />
+      </Stack>
+    </AuthProvider>
+  );
 }
