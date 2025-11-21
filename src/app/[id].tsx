@@ -71,7 +71,7 @@ export default function Questions() {
 
     const { data, error } = await supabase
       .from("votes")
-      .upsert([newVote])
+      .upsert([newVote], { onConflict: "id" })
       .select()
       .single();
 

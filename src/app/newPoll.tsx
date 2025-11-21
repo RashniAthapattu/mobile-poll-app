@@ -116,7 +116,7 @@ export default function NewPoll() {
       </Pressable>
       <Pressable
         onPress={createPoll}
-        className="mt-4 p-4 bg-pink-500 rounded-lg items-center"
+        className="mt-4 p-4 bg-pink-400 rounded-lg items-center"
       >
         <Text className="text-white font-bold">Create Poll</Text>
       </Pressable>

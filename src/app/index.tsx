@@ -1,7 +1,9 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Link, Redirect, router, Stack, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Pressable,
   Text,
@@ -77,7 +79,7 @@ export default function Index() {
         ListHeaderComponent={() => (
           <Pressable
             onPress={() => router.push("/newPoll")}
-            className="m-2 p-4 bg-pink-500 rounded-lg items-center"
+            className="m-2 p-4 bg-pink-400 rounded-lg items-center"
           >
             <Text className="text-white font-bold">Create New Poll</Text>
           </Pressable>
@@ -90,16 +92,41 @@ export default function Index() {
           </View>
         }
         renderItem={({ item }) => (
-          <Link
-            href={`/${item.id}`}
-            className="m-2 p-4 bg-white border border-pink-300 mb-4 rounded-lg shadow-sm"
-          >
-            <View>
-              <Text className="text-lg font-semibold text-pink-800">
-                {item.question}
-              </Text>
-            </View>
-          </Link>
+          <View className="m-2 p-4 bg-white border border-pink-300 mb-4 rounded-lg shadow-sm">
+            <Link href={`/${item.id}`} className="flex-1">
+              <View>
+                <Text className="text-lg font-semibold text-pink-800">
+                  {item.question}
+                </Text>
+              </View>
+            </Link>
+            <Pressable
+              onPress={async () => {
+                try {
+                  const { error } = await supabase
+                    .from("polls")
+                    .delete()
+                    .eq("id", item.id);
+
+                  if (error) {
+                    console.error("Supabase error:", error);
+                    Alert.alert("Error", "Failed to delete the poll");
+                  } else {
+                    setPolls((prev) =>
+                      prev.filter((poll) => poll.id !== item.id)
+                    );
+                    Alert.alert("Success", "Poll deleted successfully");
+                  }
+                } catch (err) {
+                  console.error("Unexpected error:", err);
+                  Alert.alert("Error", "An unexpected error occurred");
+                }
+              }}
+              className="absolute top-2 right-2 p-2"
+            >
+              <MaterialCommunityIcons name="delete" size={24} color="#ad1457" />
+            </Pressable>
+          </View>
         )}
       />
     </View>

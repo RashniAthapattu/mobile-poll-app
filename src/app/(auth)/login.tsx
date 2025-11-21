@@ -85,7 +85,7 @@ export default function Auth() {
           onPress={signInWithEmail}
           disabled={loading}
           className={`p-4 rounded-lg mb-3 ${
-            loading ? "bg-pink-300" : "bg-pink-500"
+            loading ? "bg-pink-300" : "bg-pink-400"
           }`}
         >
           <Text className="text-white text-center font-bold text-lg">
@@ -96,7 +96,7 @@ export default function Auth() {
         <Pressable
           onPress={signUpWithEmail}
           disabled={loading}
-          className={`p-4 rounded-lg ${loading ? "bg-pink-200" : "bg-pink-400"}`}
+          className={`p-4 rounded-lg ${loading ? "bg-pink-200" : "bg-pink-300"}`}
         >
           <Text className="text-white text-center font-bold text-lg">
             {loading ? "Loading..." : "Sign Up"}
