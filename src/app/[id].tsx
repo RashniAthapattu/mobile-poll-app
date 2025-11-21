@@ -1,8 +1,8 @@
-import SelectionModal from "@/src/components/modals/selectionModal";
 import Feather from "@expo/vector-icons/Feather";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";
+import SelectionModal from "../components/modals/selectionModal";
 import { supabase } from "../lib/supaBase";
 import { useAuth } from "../providers/AuthProvider";
 import { Poll, Vote } from "../types/db";
