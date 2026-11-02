@@ -1,50 +1,82 @@
-# Welcome to your Expo app 👋
+# Polling
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A cross-platform mobile app for creating polls and voting on them, built with **React Native (Expo)**, **TypeScript** and **Supabase**.
 
-## Get started
+Users can create a poll with a question and several options, browse all polls, vote, and change their vote later. It runs on iOS, Android and the web from one codebase.
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+- **Create polls** with a question and two or more answer options (add or remove options as you go)
+- **Browse and delete polls** in a list that refreshes whenever you return to the screen
+- **Vote and change your vote:** your previous choice is loaded and updated, so each user has one vote per poll
+- **Accounts with Supabase Auth:** sign up or log in with email and password
+- **Anonymous guest sessions:** new visitors are signed in anonymously so they can try the app straight away
+- **Persistent sessions** stored with AsyncStorage, with automatic token refresh
+- **Protected screens** using Expo Router route groups for `(auth)` and `(protected)` pages
+- **Type-safe database access** with TypeScript types generated from the Supabase schema
+- **Styled with NativeWind** (Tailwind CSS for React Native)
 
-2. Start the app
+## Tech stack
 
-   ```bash
-   npx expo start
-   ```
+| Area       | Tools |
+|------------|-------|
+| App        | React Native, Expo SDK 54, Expo Router, TypeScript |
+| Styling    | NativeWind (Tailwind CSS) |
+| Backend    | Supabase (PostgreSQL, Auth) |
+| Storage    | AsyncStorage for sessions |
 
-In the output, you'll find options to open the app in a
+## Project structure
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+src/
+  app/
+    (auth)/login.tsx        sign in and sign up
+    (protected)/profile.tsx profile and sign out
+    index.tsx               list of polls
+    newPoll.tsx             create a poll
+    [id].tsx                poll details and voting
+  components/modals/        vote confirmation modal
+  lib/supaBase.ts           Supabase client
+  providers/AuthProvider.tsx session and auth state
+  types/                    generated database types
+supabase/config.toml        local Supabase setup
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Database
 
-## Learn more
+Two tables in Supabase:
 
-To learn more about developing your project with Expo, look at the following resources:
+| Table   | Columns |
+|---------|---------|
+| `polls` | `id`, `question`, `options` (text array), `created_at` |
+| `votes` | `id`, `poll_id` → `polls.id`, `user_id`, `option`, `created_at` |
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Getting started
 
-## Join the community
+### Requirements
 
-Join our community of developers creating universal apps.
+- Node.js 18 or newer
+- A Supabase project (free tier is fine), with the two tables above and anonymous sign-ins turned on
+- The Expo Go app on your phone, or an iOS/Android simulator
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 1. Set up environment variables
+
+Create a `.env` file in the project root:
+
+```bash
+EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+```
+
+### 2. Install and run
+
+```bash
+npm install
+npx expo start
+```
+
+Scan the QR code with Expo Go, or press `i` (iOS), `a` (Android) or `w` (web).
+
+## Author
+
+**Rashni Athapattu**, Full-Stack Software Engineer, Stockholm
