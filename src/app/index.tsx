@@ -19,11 +19,10 @@ export default function Index() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  if (!user) {
-    return <Redirect href="/login" />;
-  }
   useFocusEffect(
     useCallback(() => {
+      if (!user) return;
+
       const fetchPolls = async () => {
         try {
           setLoading(true);
@@ -35,7 +34,7 @@ export default function Index() {
           }
 
           setPolls(data || []);
-        } catch (err) {
+        } catch {
           setError("An unexpected error occurred");
         } finally {
           setLoading(false);
@@ -43,8 +42,13 @@ export default function Index() {
       };
 
       fetchPolls();
-    }, [])
+    }, [user])
   );
+
+  // Hooks must run on every render, so redirect only after they have been called
+  if (!user) {
+    return <Redirect href="/login" />;
+  }
 
   if (loading) {
     return (
