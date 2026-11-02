@@ -35,7 +35,7 @@ export default function Questions() {
     const fetchVote = async () => {
       if (!user) return;
 
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("votes")
         .select("*")
         .eq("poll_id", Number(id))
@@ -51,7 +51,7 @@ export default function Questions() {
 
     fetchPoll();
     fetchVote();
-  }, []);
+  }, [id, user]);
 
   const submitVote = async () => {
     if (!selectedOption) {

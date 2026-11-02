@@ -39,7 +39,7 @@ export default function NewPoll() {
       return;
     }
 
-    const { data, error: supabaseError } = await supabase
+    const { error: supabaseError } = await supabase
       .from("polls")
       .insert([
         {
